@@ -28,11 +28,12 @@
     [self initUI];
     
     //以block形式执行,类方法
+    __weak typeof(self) weakSelf = self;
     [NSThread detachNewThreadWithBlock:^{
         [[NSThread currentThread] setName:@"block线程"];
         [NSThread sleepForTimeInterval:0.5];
         NSString *info = [NSString stringWithFormat:@"detach新线程执行Block,thread info:%@", [NSThread currentThread]];
-        [self performSelectorOnMainThread:@selector(fillLabel:) withObject:info waitUntilDone:NO];
+        [weakSelf performSelectorOnMainThread:@selector(fillLabel:) withObject:info waitUntilDone:NO];
     }];
     
     //以方法形式执行，类方法
